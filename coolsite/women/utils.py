@@ -3,13 +3,15 @@ from django.core.cache import cache
 
 from .models import *
 
-menu = [{'title': 'Про сайт', 'url_name': 'about'},
+menu = [{'title': 'Відгуки про сайт', 'url_name': 'about'},
         {'title': 'Додай статтю', 'url_name': 'add_page'},
         {'title': 'Зворотний звязок', 'url_name': 'contact'},
         ]
 
+
 class DataMixin:
     paginate_by = 2
+
     def get_user_context(self, **kwargs):
         context = kwargs
         cats = cache.get('cats')

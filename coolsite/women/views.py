@@ -34,8 +34,8 @@ class WomenHome(DataMixin, ListView):
 #               }
 #    return render(request, 'women/index.html', context=context)
 
-def about(request):
-    return render(request, 'women/about.html', {'title': 'Про сайт', 'menu': menu})
+# def about(request):
+#     return render(request, 'women/about.html', {'title': 'Про сайт', 'menu': menu})
 
 
 class AddPage(LoginRequiredMixin, DataMixin, CreateView):
@@ -75,6 +75,20 @@ class ContactFormView(DataMixin, CreateView):
     def form_valid(self, form):
         print(form.cleaned_data)
         return redirect('home')
+
+
+class ContactsShow(DataMixin, ListView):
+    model = Feedback
+    template_name = 'women/about.html'
+    context_object_name = 'contacts'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Відгуки про сайт")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_queryset(self):
+        return Feedback.objects.filter(is_published=True)
 
 
 # def show_post(request, post_slug):

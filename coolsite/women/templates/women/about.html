@@ -1,6 +1,17 @@
 {% extends 'women/base.html' %}
 
 {% block content %}
-<h1>{{title}}</h1>
-<p>Зміст сторінки про сайт
+<ul class="list-articles">
+    {% for c in contacts %}
+
+    <li>
+        <div class="article-panel" width=50%>
+            <p class="last">Дата: {{ c.time_create|date:"d-m-Y H:i:s" }}</p>
+        </div>
+        <h2>{{ c.name }}</h2>
+        {{c.content }}
+    </li>
+
+    {% endfor %}
+</ul>
 {% endblock %}
