@@ -34,8 +34,23 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse('category', kwargs={'cat_slug': self.slug})
 
-
     class Meta:
         verbose_name = 'Категорія'
         verbose_name_plural = 'Категорії'
         ordering = ['id']
+
+
+class Feedback(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Ім'я/Нік")
+    email = models.EmailField(max_length=255, unique=True, verbose_name='Email')
+    content = models.TextField(blank=False, verbose_name='Повідомлення')
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name="Опубліковано")
+    is_published = models.BooleanField(default=True, verbose_name='Показано')
+    captcha = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Зворотній зв'язок"
+        ordering = ['email', 'time_create', 'is_published']

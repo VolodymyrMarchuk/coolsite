@@ -10,6 +10,7 @@ class AddPostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cat'].empty_label = "Категорія не вибрана"
+
     class Meta:
         model = Women
         fields = ['title', 'slug', 'content', 'photo', 'is_published', 'cat']
@@ -42,8 +43,14 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-class ContactForm(forms.Form):
-    name = forms.CharField(label="Ім'я", max_length=255)
-    email = forms.EmailField(label='Email')
-    content = forms.CharField(widget=forms.Textarea(attrs={'cols': 60, 'rows': 10}))
+class AddFeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'content', 'content']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'email': forms.EmailInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }
+
     captcha = CaptchaField()

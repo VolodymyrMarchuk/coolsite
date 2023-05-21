@@ -25,7 +25,7 @@ class WomenHome(DataMixin, ListView):
         return Women.objects.filter(is_published=True).select_related('cat')
 
 
-#def index(request):
+# def index(request):
 #    post = Women.objects.all()
 #
 #    context = {'title': 'Головна сторінка',
@@ -49,7 +49,8 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
         c_def = self.get_user_context(title="Додавання статті")
         return dict(list(context.items()) + list(c_def.items()))
 
-#def addpage(request):
+
+# def addpage(request):
 #    if request.method == 'POST':
 #        form = AddPostForm(request.POST, request.FILES)
 #        if form.is_valid():
@@ -61,16 +62,12 @@ class AddPage(LoginRequiredMixin, DataMixin, CreateView):
 #    return render(request, 'women/addpage.html', {'form': form, 'title': 'Додай статтю'})
 
 
-# def contact(request):
-#     return render(request, 'women/contact.html', {'title': 'Зворотній звязок', 'menu': menu})
-
-
-class ContactFormView(DataMixin, FormView):
-    form_class = ContactForm
+class ContactFormView(DataMixin, CreateView):
+    form_class = AddFeedbackForm
     template_name = 'women/contact.html'
     success_url = reverse_lazy('home')
 
-    def get_context_data(self, object_list=None ,**kwargs):
+    def get_context_data(self, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Зворотній зв'язок")
         return dict(list(context.items()) + list(c_def.items()))
@@ -79,11 +76,8 @@ class ContactFormView(DataMixin, FormView):
         print(form.cleaned_data)
         return redirect('home')
 
-#def login(request):
-#    return render(request, 'women/login.html', {'title': 'Увійти', 'menu': menu})
 
-
-#def show_post(request, post_slug):
+# def show_post(request, post_slug):
 #    post = get_object_or_404(Women, slug=post_slug)
 #    context = {
 #        'post': post,
@@ -120,7 +114,8 @@ class WomenCategory(DataMixin, ListView):
                                       cat_selected=c.pk)
         return dict(list(context.items()) + list(c_def.items()))
 
-#def show_category(request, cat_slug):
+
+# def show_category(request, cat_slug):
 #    cat = get_object_or_404(Category, slug=cat_slug)
 #    post = Women.objects.filter(cat_id=cat.id)
 #
@@ -149,6 +144,7 @@ class RegisterUser(DataMixin, CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
+
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
